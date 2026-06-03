@@ -23,8 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools wheel
-          pip install -r requirements.txt
+          pip install --upgrade pip "setuptools<75" wheel
+          pip install --no-build-isolation -r requirements.txt
 
       - name: Run tests
         run: python -m pytest
