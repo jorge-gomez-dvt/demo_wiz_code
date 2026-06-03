@@ -1,0 +1,52 @@
+version: '2.0'
+
+services:
+  web:
+    build: .
+    ports:
+      - "0.0.0.0:5000:5000"  # Bound to all interfaces
+    environment:
+      - DEBUG=true
+      - DB_PASSWORD=SuperSecret123!
+      - JWT_SECRET=hardcoded_secret
+      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    volumes:
+      - /:/host  # Mounting root filesystem!
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker socket exposed
+    privileged: true  # Running in privileged mode
+    user: root
+    network_mode: host  # Host network mode
+
+  db:
+    image: postgres:9.6  # Old version
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=appdb
+    ports:
+      - "0.0.0.0:5432:5432"  # DB port exposed to internet
+    # No health check
+    # No resource limits
+
+  redis:
+    image: redis:3.2  # Old and vulnerable
+    ports:
+      - "0.0.0.0:6379:6379"  # Redis exposed without auth
+    command: redis-server --requirepass ""  # No password
+
+  mongo:
+    image: mongo:3.4  # Very old version
+    ports:
+      - "0.0.0.0:27017:27017"  # MongoDB exposed
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  nginx:
+    image: nginx:1.14  # Old nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf

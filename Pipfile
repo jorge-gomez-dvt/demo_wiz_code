@@ -1,0 +1,22 @@
+[packages]
+django = "==2.0.1"
+flask = "==0.12.2"
+requests = "==2.18.4"
+pillow = "==5.0.0"
+pycrypto = "==2.6.1"
+paramiko = "==2.0.0"
+sqlalchemy = "==1.1.14"
+jinja2 = "==2.9.6"
+pyyaml = "==3.12"
+cryptography = "==2.1.4"
+urllib3 = "==1.22"
+celery = "==4.0.2"
+boto = "==2.49.0"
+ansible = "==2.7.0"
+scrapy = "==1.4.0"
+tensorflow = "==1.4.0"
+numpy = "==1.13.3"
+setuptools = "==36.0.0"
+
+[dev-packages]
+pytest = "==3.3.2"

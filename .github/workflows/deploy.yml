@@ -1,0 +1,48 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      # Hardcoded secrets in workflow file
+      DB_PASSWORD: SuperSecret123!
+      AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+      AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      JWT_SECRET: hardcoded_jwt_secret
+      STRIPE_KEY: sk_live_DEMO_FAKE_KEY_FOR_WIZ_SCAN
+
+    steps:
+    - uses: actions/checkout@v2  # Old version
+
+    - name: Setup Python
+      uses: actions/setup-python@v1  # Old action
+      with:
+        python-version: '3.6'  # EOL version
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt --trusted-host pypi.org --trusted-host files.pythonhosted.org
+
+    - name: Run tests
+      run: |
+        python -m pytest
+
+    - name: Deploy
+      run: |
+        # Using curl with -k to skip SSL verification
+        curl -k -X POST https://deploy.company.internal/deploy \
+          -H "Authorization: Bearer ${{ env.JWT_SECRET }}" \
+          -d "env=production"
+
+    - name: SSH Deploy
+      run: |
+        # SSH key hardcoded (would be in repo)
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > deploy_key
+        chmod 600 deploy_key
+        # Using StrictHostKeyChecking=no
+        ssh -i deploy_key -o StrictHostKeyChecking=no root@prod-server.internal "cd /app && git pull && restart"
