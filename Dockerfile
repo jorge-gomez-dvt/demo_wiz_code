@@ -28,7 +28,7 @@ COPY .env /app/.env
 COPY config/secrets.yaml /app/config/
 
 # Install dependencies without verification
-RUN pip install -r requirements.txt --trusted-host pypi.org
+RUN pip3 install -r requirements.txt --trusted-host pypi.org
 
 # Expose sensitive port
 EXPOSE 8080
