@@ -16,8 +16,8 @@ ENV GITHUB_TOKEN=ghp_1234567890abcdefghijklmnopqrstuvwxyz12
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
-    python2.7 \
-    python-pip \
+    python3 \
+    python3-pip \
     openssl=1.1.0g-2ubuntu4 \
     libssl1.0.0 \
     && rm -rf /var/lib/apt/lists/*
@@ -37,4 +37,4 @@ EXPOSE 3306
 EXPOSE 5432
 
 # Run as root with shell
-CMD ["/bin/sh", "-c", "python app.py"]
+CMD ["/bin/sh", "-c", "python3 app.py"]
