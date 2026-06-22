@@ -33,6 +33,3 @@ jobs:
           WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
           WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
         run: ./wizcli scan container-image $TAG --policies "$POLICY"
-
-      - name: Fetch digest of Docker image for Graph enrichment
-        run: ./wizcli tag $TAG
