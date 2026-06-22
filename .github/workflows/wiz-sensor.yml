@@ -28,6 +28,7 @@ jobs:
         run: |
           pip install "pip<24.1" "setuptools<46" wheel
           pip install --no-build-isolation -r requirements.txt
+          pip install pytest
 
       - name: Run tests
         run: python -m pytest
