@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     python2.7 \
+    python-pip \
     openssl=1.1.0g-2ubuntu4 \
     libssl1.0.0 \
     && rm -rf /var/lib/apt/lists/*
